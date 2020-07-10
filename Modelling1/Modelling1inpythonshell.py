@@ -1,0 +1,65 @@
+ from pyspark.sql.session import SparkSession
+ from pyspark import *
+ from pyspark import SparkContext
+ from pyspark import SparkConf
+ from pyspark.sql.functions import col
+ import ctypes
+ kernel32 = ctypes.WinDLL('kernel32', use_last_error=True)
+ kernel32.SetStdHandle(-11, None)
+
+ kernel32.SetStdHandle(-12, None)
+
+ import pandas as pd
+ import numpy as np
+ conf = SparkConf().setMaster("local").setAppName("PySparkR").set('spark.executor.memory', '4G').set('spark.driver.memory', '45g').set('spark.driver.maxReultSize', '10g')
+ sc1 = SparkContext(conf=conf)
+ from pyspark.sql import SQLContext
+ sqlContext = SQLContext(sc1)
+
+
+
+pdata2 = pd.read_csv("Credit_Data.csv")
+ pdata2 = pd.DataFrame(pdata2)
+ test = sqlContext.createDataFrame(pdata2)
+ from pyspark.sql.types import StructField,IntegerType, StructType,StringType, DecimalType, FloatType, ArrayType
+ from pyspark.sql.functions import col
+ test= test.select([col(c).cast("integer") for c in test.columns])
+
+
+pdata = pd.read_csv("Credit_Data.csv")
+ pdata = pd.DataFrame(pdata)
+ tdata = sqlContext.createDataFrame(pdata)
+ from pyspark.sql.types import StructField,IntegerType, StructType,StringType, DecimalType, FloatType, ArrayType
+ from pyspark.sql.functions import col
+ training = tdata.select([col(c).cast("integer") for c in tdata.columns])
+import pyspark
+
+ from pyspark.mllib.evaluation import BinaryClassificationMetrics
+
+ from pyspark.ml.feature import OneHotEncoder, StringIndexer, VectorAssembler
+ from pyspark.ml import Pipeline
+ from pyspark.mllib.clustering import KMeansModel
+ import numpy as np
+ import pandas as pd
+ from pyspark import SparkContext
+ from pyspark.ml.clustering import KMeans
+ from pyspark.ml.feature import VectorAssembler
+ from pyspark.sql import SQLContext
+ list = ['CHK_ACCT', 'DURATION', 'HISTORY', 'NEW_CAR', 'USED_CAR', 'EDUCATION', 'RETRAINING', 'AMOUNT', 'SAV_ACCT', 'EMPLOYMENT', 'INSTALL_RATE', 'CO-APPLICANT', 'GUARANTOR', 'PRESENT_RESIDENT', 'REAL_ESTATE', 'PROP_UNKN_NONE', 'AGE', 'OTHER_INSTALL', 'RENT', 'OWN_RES', 'NUM_CREDITS', 'JOB', 'NUM_DEPENDENTS', 'FOREIGN']
+ 
+ vecAssembler = VectorAssembler(inputCols=list, outputCol="Features")
+ df_kmeans = vecAssembler.transform(training)
+ k = 2
+ kmeans = KMeans().setK(k).setSeed(100).setFeaturesCol("Features").setPredictionCol("label")
+ model = kmeans.fit(df_kmeans)
+ transformed = model.transform(df_kmeans)
+ rows = transformed.collect()
+ df_pred = sqlContext.createDataFrame(rows)
+ df_pred.groupBy("label").count().show()
+
+#+-----+-----+
+#|label|count|
+#+-----+-----+
+#|    0|  827|
+#|    1|  173|
+#+-----+-----+
