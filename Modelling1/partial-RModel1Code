@@ -58,7 +58,6 @@ import pyspark
  transformed = model.transform(df_kmeans)
  rows = transformed.collect()
  df_pred = sqlContext.createDataFrame(rows)
- training1 = df_pred
  df_pred.groupBy("label").count().show()
 
 +-----+-----+
