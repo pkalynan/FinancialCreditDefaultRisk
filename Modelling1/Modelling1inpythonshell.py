@@ -57,9 +57,11 @@ import pyspark
  df_pred = sqlContext.createDataFrame(rows)
  df_pred.groupBy("label").count().show()
 
-##+-----+-----+
-##|label|count|
-##+-----+-----+
-##|    0|  827|
-##|    1|  173|
-##+-----+-----+
+'''
++-----+-----+
+|label|count|
++-----+-----+
+|    0|  827|
+|    1|  173|
++-----+-----+
+'''
