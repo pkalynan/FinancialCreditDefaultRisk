@@ -47,7 +47,7 @@ summary(out)
 	 # 54.30%	HISTORY
 plot(out)
 
-# Creating proportions for the train est and test set
+# Creating proportions for the train set and test set
 smp_siz = floor(0.75*nrow(Credit_Data))
 set.seed(123)
 train_ind = sample(seq_len(nrow(Credit_Data)),size = smp_siz)
