@@ -7,6 +7,7 @@ var3 <- c("CHK_ACCT", "HISTORY")
 out <- C5.0(x = Credit_Data[, var3], y = Credit_Data$DEFAULT)
 summary(out)
 
+
 # Call:
 # C5.0.default(x = Credit_Data[, var3], y = Credit_Data$DEFAULT)
 
