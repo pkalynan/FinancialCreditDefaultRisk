@@ -1,3 +1,4 @@
+#import libraries
 x1 <- as.data.frame(Credit_Data)
 vif(x1)
 
