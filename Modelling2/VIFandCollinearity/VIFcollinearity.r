@@ -36,7 +36,11 @@ Variables      VIF
 30        TELEPHONE 1.291988
 31          FOREIGN 1.096751
 32          DEFAULT 1.375630
-> vifcor(x1,th=0.9)
+'''
+
+vifcor(x1,th=0.9)
+
+'''
 No variable from the 32 input variables has collinearity problem. 
 
 The linear correlation coefficients ranges between: 
